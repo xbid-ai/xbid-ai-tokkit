@@ -6,7 +6,7 @@
 - Quasi-parity (no templates)  
 - 60% faster than OpenAI's `tiktoken` (WASM)
 
-This library is used in the [xbid.ai](https://xbid.ai) project, where we need a **low-overhead, fast, BPE counter** that is *accurate enough* for billing estimates. `xbid-ai-tokkit` uses greedy longest-match search without materializing token IDs and skips templates, trading exact parity (<1.5% error) for speed and simplicity.
+This library is used in the [xbid.ai](https://github.com/xbid-ai/xbid-ai) project, where we need a **low-overhead, fast, BPE counter** that is *accurate enough* for billing estimates. `xbid-ai-tokkit` uses greedy longest-match search without materializing token IDs and skips templates, trading exact parity (<1.5% error) for speed and simplicity.
 
 We may extend the project with support for other LLM tokenizers (e.g. SentencePiece) and additional token utilities.
 
