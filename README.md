@@ -1,3 +1,4 @@
+[![Build Status](https://github.com/xbid-ai/xbid-ai-tokkit/actions/workflows/build.yml/badge.svg)](https://github.com/xbid-ai/xbid-ai-tokkit/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](/LICENSE)
 
 # xbid-ai-tokkit
@@ -5,6 +6,7 @@
 - C++ BPE counter using `.tiktoken` (OpenAI) vocab  
 - Quasi-parity (no templates)  
 - 60% faster than OpenAI's `tiktoken` (WASM)
+- No external dependencies (standard C++20 toolchain)
 
 This library is used in the [xbid.ai](https://github.com/xbid-ai/xbid-ai) project, where we need a **low-overhead, fast, BPE counter** that is *accurate enough* for billing estimates. `xbid-ai-tokkit` uses greedy longest-match search without materializing token IDs and skips templates, trading exact parity (<1.5% error) for speed and simplicity.
 
