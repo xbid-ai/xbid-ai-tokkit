@@ -15,5 +15,8 @@ class Counter {
 public:
     virtual ~Counter() = default;
     virtual std::string model() const = 0;
+    virtual void prepare() const = 0;
     virtual size_t count(std::string_view text) const = 0;
 };
+
+inline void Counter::prepare() const {}

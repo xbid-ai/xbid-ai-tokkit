@@ -18,16 +18,27 @@
 #include "incl/default_counter.h"
 #include "incl/openai_counter.h"
 
+#if SENTENCEPIECE
+#include "incl/sentencepiece_counter.h"
+#endif
+
 class CounterFactory {
 public:
     static std::unique_ptr<Counter> create(const std::string& provider, const std::string& model) {
+        std::unique_ptr<Counter> ptr;
         if (provider == "openai") {
-            OpenAiCounter::prepare(model);
-            return std::make_unique<OpenAiCounter>(model);
+            ptr = std::make_unique<OpenAiCounter>(model);
+#if SENTENCEPIECE
+        } else if (provider == "sentencepiece") {
+            ptr = std::make_unique<SentencePieceCounter>(model);
+#endif
         } else if (provider == "default") {
-            return std::make_unique<DefaultCounter>(model);
+            ptr = std::make_unique<DefaultCounter>(model);
+        } else {
+            throw std::runtime_error("Unsupported provider: " + provider);
         }
-        throw std::runtime_error("Unsupported provider: " + provider);
+        ptr->prepare();
+        return ptr;
     }
 };
 
@@ -80,7 +91,11 @@ static void usage(const char* prog) {
     std::cerr
         << "Usage:\n"
         << "  " << prog
-        << " --provider (openai|default) --model /data/o200k_base.tiktoken"
+#if SENTENCEPIECE
+        << " --provider (openai|sentencepiece|default) --model (*.tiktoken|*.model)"
+#else
+        << " --provider (openai|default) --model (*.tiktoken)"
+#endif
         << " [--text \"...\"] [--file <path>] [--stdin]"
         << "  " << prog << " --provider (openai|default) --model /data/o200k_base.tiktoken --serve\n"
         << "    Serve protocol: client [u32 LE length][bytes]; server \"<count>\\n\".\n";

@@ -5,8 +5,6 @@
  * Author: Fred Kyung-jin Rezeau (오경진 吳景振) <hello@kyungj.in>
  */
 
-// Naive token counter. Should only be used as fallback.
-
 #pragma once
 
 #include <cstddef>
@@ -14,12 +12,15 @@
 #include <string_view>
 #include "counter.h"
 
+// Naive token counter. Should only be used as fallback.
 class DefaultCounter final : public Counter {
 public:
     explicit DefaultCounter(std::string model)
         : _model(std::move(model)) {}
 
     std::string model() const override { return _model; }
+
+    void prepare() const override { Counter::prepare(); }
 
     size_t count(std::string_view text) const override {
         const size_t n = text.size();
